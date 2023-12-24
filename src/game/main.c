@@ -469,21 +469,6 @@ int rrand(int range) {
     r=rand();
     return (range*r/(RAND_MAX+1));
 }
-
-// wsa network
-
-int net_init(void) {
-    WSADATA wsadata;
-
-    if (WSAStartup(0x0002,&wsadata)) return -1;
-    return 0;
-}
-
-int net_exit(void) {
-    WSACleanup();
-    return 0;
-}
-
 // parsing command line
 
 void display_messagebox(char *title,char *text) {
@@ -652,7 +637,6 @@ void register_crash_handler(void);
 int main(int argc,char *args[]) {
     int ret;
     char buf[80],buffer[1024];
-    struct hostent *he;
     char filename[MAX_PATH];
 
     convert_cmd_line(buffer,argc,args,1000);
@@ -692,24 +676,12 @@ int main(int argc,char *args[]) {
 
     // next init (only once)
     if (net_init()==-1) {
-        MessageBox(NULL,"Can't Initialize Windows Networking Libraries.","Error",MB_APPLMODAL|MB_OK|MB_ICONSTOP);
+        MessageBox(NULL,"Can't Initialize Networking Libraries.","Error",MB_APPLMODAL|MB_OK|MB_ICONSTOP);
         return -1;
     }
 
-    if (isdigit(server_url[0])) {
-        target_server=ntohl(inet_addr(server_url));
-    } else {
-        he=gethostbyname(server_url);
-        if (he) target_server=ntohl(*(unsigned long *)(*he->h_addr_list));
-        else {
-            fail("Could not resolve server %s.",server_url);
-            return -2;
-        }
-    }
-
+    target_server=server_url;
     if (server_port) target_port=server_port;
-
-    note("Using login server at %u.%u.%u.%u:%u",(target_server>>24)&255,(target_server>>16)&255,(target_server>>8)&255,(target_server>>0)&255,target_port);
 
     // init random
     rrandomize();

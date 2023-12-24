@@ -523,7 +523,7 @@ extern int originy;
 
 extern int sockstate;
 extern int socktimeout;
-extern int target_server;
+extern char *target_server;
 extern int target_port;
 extern int kicked_out;
 
@@ -584,6 +584,8 @@ void cmd_fastsell(int with);
 void cmd_con_fast(int pos);
 void cmd_teleport(int nr);
 
+int net_init(void);
+int net_exit(void);
 int poll_network(void);
 int next_tick(void);
 int do_tick(void);

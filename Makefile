@@ -11,7 +11,7 @@ CFLAGS=$(OPT) $(DEBUG) -Wall -Wno-pointer-sign -Wno-char-subscripts -fno-omit-fr
 LDFLAGS=$(OPT) $(DEBUG) -Wl,-subsystem,windows
 
 SDL_LIBS=$(shell $(SDL_CONFIG) --libs)
-LIBS = -lwsock32 -lws2_32 -lz -lpng -lzip -ldwarfstack $(SDL_LIBS) -lSDL2_mixer
+LIBS = -lz -lpng -lzip -ldwarfstack $(SDL_LIBS) -lSDL2_net -lSDL2_mixer
 
 OBJS	=		src/gui/gui.o src/client/client.o src/client/skill.o src/game/dd.o src/game/font.o\
 			src/game/main.o src/game/sprite.o src/game/game.o src/modder/modder.o\
